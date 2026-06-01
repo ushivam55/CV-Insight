@@ -1,0 +1,13 @@
+{
+  "name": "btech-resume-screener",
+  "version": "1.0.0",
+  "description": "ATS Resume Scanner and Career Readiness Optimizer for B.Tech CS/IT students",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx http-server -p 3000 -o"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}

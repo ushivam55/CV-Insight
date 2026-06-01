@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Insight - B.Tech CS/IT Resume Analyzer & ATS Optimizer</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- PDF.js library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Background Glowing Orbs -->
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+    <div class="glow-orb orb-3"></div>
+
+    <div class="app-container">
+        <!-- HEADER -->
+        <header class="app-header">
+            <div class="logo-area">
+                <div class="logo-icon">
+                    <i data-lucide="scan-line"></i>
+                </div>
+                <div>
+                    <h1>CV Insight <span class="badge">B.Tech CS/IT</span></h1>
+                    <p class="subtitle">ATS Resume Scrutinizer & Career Readiness Evaluator</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-secondary" id="btnReset" style="display: none;">
+                    <i data-lucide="refresh-cw"></i> Scan Another
+                </button>
+            </div>
+        </header>
+
+        <!-- MAIN LAYOUT -->
+        <main class="main-content">
+            
+            <!-- STEP 1: UPLOAD STATE -->
+            <section class="upload-section" id="uploadState">
+                <div class="welcome-card">
+                    <h2>Auditing B.Tech Resumes for Industry Standards</h2>
+                    <p>Designed specifically for Computer Science & IT undergraduates. CV Insight parses your resume locally, evaluates core CS fundamentals, scores job role compatibility, and helps optimize formatting for modern ATS software.</p>
+                </div>
+
+                <div class="glass-card upload-container">
+                    <div class="drop-zone" id="dropZone">
+                        <input type="file" id="fileInput" accept=".pdf" class="file-input-hidden">
+                        <div class="upload-icon">
+                            <i data-lucide="file-up"></i>
+                        </div>
+                        <h3>Drag & Drop your PDF resume here</h3>
+                        <p class="text-muted">or click to browse from your device</p>
+                        <div class="file-requirements">
+                            <span><i data-lucide="check-circle-2"></i> PDF Format</span>
+                            <span><i data-lucide="shield-check"></i> 100% Client-side & Private</span>
+                        </div>
+                    </div>
+
+                    <div class="divider">
+                        <span>OR COPY & PASTE TEXT</span>
+                    </div>
+
+                    <div class="paste-zone">
+                        <textarea id="pasteArea" placeholder="Paste the text content of your resume here to scan directly..."></textarea>
+                        <button class="btn btn-primary btn-block" id="btnScanText">
+                            <i data-lucide="cpu"></i> Analyze Resume Text
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- STEP 2: LOADING / PROCESSING STATE -->
+            <section class="loading-section glass-card" id="loadingState" style="display: none;">
+                <div class="scanner-effect">
+                    <div class="scanner-bar"></div>
+                </div>
+                <div class="loading-content">
+                    <div class="spinner"></div>
+                    <h2>Scanning Resume...</h2>
+                    <p id="loadingStatusText">Reading document structures...</p>
+                    
+                    <ul class="parsing-steps">
+                        <li id="step-pdf" class="active"><i data-lucide="circle-dot"></i> Parsing PDF file contents</li>
+                        <li id="step-skills"><i data-lucide="circle"></i> Classifying CS & technical skills</li>
+                        <li id="step-cs"><i data-lucide="circle"></i> Validating academic CS core concepts</li>
+                        <li id="step-ats"><i data-lucide="circle"></i> Checking ATS styling & compliance</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- STEP 3: DASHBOARD STATE -->
+            <section class="dashboard-section" id="dashboardState" style="display: none;">
+                
+                <!-- SIDEBAR / SUMMARY CARD -->
+                <div class="dashboard-flow">
+                    <!-- PROFILE SUMMARY BANNER -->
+                    <div class="glass-card profile-banner-card">
+                        <!-- Left: Compact Score Meter -->
+                        <div class="banner-score-area">
+                            <div class="score-ring-compact">
+                                <svg viewBox="0 0 120 120">
+                                    <circle class="bg" cx="60" cy="60" r="54"></circle>
+                                    <circle class="meter" id="scoreMeter" cx="60" cy="60" r="54"></circle>
+                                </svg>
+                                <div class="score-value-compact">
+                                    <span id="scoreText">0</span>
+                                    <span class="max-score">/100</span>
+                                </div>
+                            </div>
+                            <div class="score-labels-compact">
+                                <h3>ATS Score</h3>
+                                <div class="score-label" id="scoreLabel">Needs Work</div>
+                            </div>
+                        </div>
+
+                        <!-- Center: Academic Credentials Grid -->
+                        <div class="banner-meta-area">
+                            <div class="banner-meta-item">
+                                <span class="meta-lbl"><i data-lucide="graduation-cap"></i> Degree</span>
+                                <span class="meta-val" id="metaDegree">B.Tech (CS/IT)</span>
+                            </div>
+                            <div class="banner-meta-item">
+                                <span class="meta-lbl"><i data-lucide="star"></i> CGPA / Score</span>
+                                <span class="meta-val" id="metaCgpa">Not Detected</span>
+                            </div>
+                            <div class="banner-meta-item">
+                                <span class="meta-lbl"><i data-lucide="calendar"></i> Grad Year</span>
+                                <span class="meta-val" id="metaGradYear">Not Detected</span>
+                            </div>
+                            <div class="banner-meta-item">
+                                <span class="meta-lbl"><i data-lucide="align-left"></i> Word Count</span>
+                                <span class="meta-val" id="metaWordCount">0 words</span>
+                            </div>
+                        </div>
+
+                        <!-- Right: Contact handles -->
+                        <div class="banner-contact-area" id="contactPills">
+                            <!-- Dynamic Contact Icons -->
+                        </div>
+                    </div>
+
+                    <!-- TABS CONTROLLER -->
+                    <div class="dashboard-body">
+                        <nav class="dashboard-tabs">
+                            <button class="tab-btn active" data-tab="tab-overview">
+                                <i data-lucide="layout-dashboard"></i> Overview
+                            </button>
+                            <button class="tab-btn" data-tab="tab-skills">
+                                <i data-lucide="code-2"></i> Skills Checklist
+                            </button>
+                            <button class="tab-btn" data-tab="tab-readiness">
+                                <i data-lucide="briefcase"></i> Job Readiness
+                            </button>
+                            <button class="tab-btn" data-tab="tab-ats">
+                                <i data-lucide="shield-alert"></i> ATS Audit
+                            </button>
+                            <button class="tab-btn" data-tab="tab-projects">
+                                <i data-lucide="folder-git-2"></i> Project Auditor
+                            </button>
+                            <button class="tab-btn" data-tab="tab-optimizer">
+                                <i data-lucide="sparkles"></i> Resume Optimizer
+                            </button>
+                        </nav>
+
+                        <!-- TAB CONTENTS -->
+                        <div class="tab-content-container">
+                            
+                            <!-- 1. OVERVIEW TAB -->
+                            <div class="tab-pane active" id="tab-overview">
+                                <div class="tab-header-desc">
+                                    <h2>Resume Assessment Summary</h2>
+                                    <p>Overall evaluation breakdown of your resume content against industry expectations for software engineering roles.</p>
+                                </div>
+
+                                <div class="overview-grid">
+                                    <div class="glass-card stat-card feedback-summary">
+                                        <h3><i data-lucide="award"></i> Strategic Feedback</h3>
+                                        <div class="feedback-badge" id="overviewStatusBadge">Excellent</div>
+                                        <p id="overviewFeedbackText">Parsing evaluation text...</p>
+                                        
+                                        <div class="metric-progress-list">
+                                            <div class="metric-progress-item">
+                                                <div class="lbl-row">
+                                                    <span>Core CS Academic Align</span>
+                                                    <span id="progCsScoreVal">0%</span>
+                                                </div>
+                                                <div class="progress-bar-bg">
+                                                    <div class="progress-bar-fill" id="progCsScore" style="width: 0%"></div>
+                                                </div>
+                                            </div>
+                                            <div class="metric-progress-item">
+                                                <div class="lbl-row">
+                                                    <span>Technical Skills Variety</span>
+                                                    <span id="progSkillsScoreVal">0%</span>
+                                                </div>
+                                                <div class="progress-bar-bg">
+                                                    <div class="progress-bar-fill" id="progSkillsScore" style="width: 0%"></div>
+                                                </div>
+                                            </div>
+                                            <div class="metric-progress-item">
+                                                <div class="lbl-row">
+                                                    <span>ATS Structure Check</span>
+                                                    <span id="progAtsScoreVal">0%</span>
+                                                </div>
+                                                <div class="progress-bar-bg">
+                                                    <div class="progress-bar-fill" id="progAtsScore" style="width: 0%"></div>
+                                                </div>
+                                            </div>
+                                            <div class="metric-progress-item">
+                                                <div class="lbl-row">
+                                                    <span>Project Quality Tier</span>
+                                                    <span id="progProjectScoreVal">0%</span>
+                                                </div>
+                                                <div class="progress-bar-bg">
+                                                    <div class="progress-bar-fill" id="progProjectScore" style="width: 0%"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="glass-card stat-card core-cs-highlight">
+                                        <h3><i data-lucide="book-open"></i> Core CS Subjects Check</h3>
+                                        <p class="subtitle-small">B.Tech IT/CS core theory forms the basis of tech interviews.</p>
+                                        <div class="cs-checklist" id="csCoreList">
+                                            <!-- Dynamic items -->
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="glass-card overview-actions">
+                                    <h3>Quick Optimization Roadmap</h3>
+                                    <ul class="roadmap-list" id="quickRoadmap">
+                                        <!-- Dynamic items -->
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- 2. SKILLS CHECKLIST TAB -->
+                            <div class="tab-pane" id="tab-skills">
+                                <div class="tab-header-desc">
+                                    <h2>Technical Skills Inventory</h2>
+                                    <p>We searched your resume for standard software technologies. Green items are present, red items are recommended additions based on CS curriculum and job markets.</p>
+                                </div>
+
+                                <div class="skills-filter-container">
+                                    <button class="filter-chip active" data-filter="all">All</button>
+                                    <button class="filter-chip" data-filter="languages">Programming Languages</button>
+                                    <button class="filter-chip" data-filter="frameworks">Web & Frameworks</button>
+                                    <button class="filter-chip" data-filter="databases">Databases</button>
+                                    <button class="filter-chip" data-filter="tools">Cloud & DevOps Tools</button>
+                                    <button class="filter-chip" data-filter="theory">CS Fundamentals</button>
+                                </div>
+
+                                <div class="skills-grid" id="skillsGrid">
+                                    <!-- Dynamic categories injected by JS -->
+                                </div>
+                            </div>
+
+                            <!-- 3. JOB READINESS TAB -->
+                            <div class="tab-pane" id="tab-readiness">
+                                <div class="tab-header-desc">
+                                    <h2>Target Profile Fitment</h2>
+                                    <p>We mapped your technical skillset to standard job roles suited for B.Tech CS/IT freshers. See where your current experience aligns best.</p>
+                                </div>
+
+                                <div class="readiness-grid" id="readinessGrid">
+                                    <!-- Dynamic role cards injected by JS -->
+                                </div>
+                            </div>
+
+                            <!-- 4. ATS AUDIT TAB -->
+                            <div class="tab-pane" id="tab-ats">
+                                <div class="tab-header-desc">
+                                    <h2>ATS Compliance & Parsing Audit</h2>
+                                    <p>Applicant Tracking Systems (ATS) scan for structural markers. Here is a scan of your layout elements.</p>
+                                </div>
+
+                                <div class="ats-checklist-container">
+                                    <div class="glass-card compliance-checker">
+                                        <h3>Formatting & Section Scan</h3>
+                                        <div class="audit-list" id="atsAuditList">
+                                            <!-- Dynamic items -->
+                                        </div>
+                                    </div>
+
+                                    <div class="glass-card parser-text-preview">
+                                        <h3>Extracted Raw Text Snippet</h3>
+                                        <p class="subtitle-small">This is the text the ATS "sees". If this looks messy or missing characters, parser issues might reject your resume.</p>
+                                        <div class="raw-preview" id="rawTextPreview"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 5. RESUME OPTIMIZER & ENHANCER TAB -->
+                            <div class="tab-pane" id="tab-optimizer">
+                                <div class="tab-header-desc">
+                                    <h2>Resume Optimizer & Bullet Point Enhancer</h2>
+                                    <p>Improve your resume points and add suggested projects to stand out.</p>
+                                </div>
+
+                                <div class="optimizer-grid">
+                                    <div class="glass-card bullet-enhancer-card">
+                                        <h3><i data-lucide="bolt"></i> Bullet Point Enhancer</h3>
+                                        <p class="subtitle-small">Paste a weak, passive sentence from your resume (e.g. "made a website using React") and we'll upgrade it into 3 high-impact, metrics-driven bullet points.</p>
+                                        
+                                        <div class="enhancer-form">
+                                            <textarea id="bulletInput" placeholder="e.g. Worked on the backend database and fixed query bugs"></textarea>
+                                            <div class="enhancer-actions">
+                                                <button class="btn btn-primary" id="btnEnhance">
+                                                    <i data-lucide="sparkles"></i> Upgrade Bullet Point
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div class="enhanced-results" id="enhancedResults" style="display: none;">
+                                            <h4>Suggested Alternatives:</h4>
+                                            <div class="alternatives-list" id="alternativesList">
+                                                <!-- Dynamic list -->
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="glass-card project-ideas-card">
+                                        <h3><i data-lucide="folders"></i> Recommended Capstone Projects</h3>
+                                        <p class="subtitle-small">Based on your missing skills, here are tailored projects you can build and add to your portfolio:</p>
+                                        <div class="project-suggestions" id="projectSuggestionsList">
+                                            <!-- Dynamic list -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 6. PROJECT AUDIT TAB -->
+                            <div class="tab-pane" id="tab-projects">
+                                <div class="tab-header-desc">
+                                    <h2>Project Complexity & Quality Audit</h2>
+                                    <p>We parsed your projects to audit complexity tier, code proof (GitHub/live URLs), and impact-driven description metrics.</p>
+                                </div>
+
+                                <div class="project-stats-grid">
+                                    <div class="glass-card proj-stat-card">
+                                        <span class="p-stat-num" id="projStatCount">0</span>
+                                        <span class="p-stat-lbl">Projects Found</span>
+                                    </div>
+                                    <div class="glass-card proj-stat-card">
+                                        <span class="p-stat-num" id="projStatLinks">0</span>
+                                        <span class="p-stat-lbl">GitHub / Live URL</span>
+                                    </div>
+                                    <div class="glass-card proj-stat-card">
+                                        <span class="p-stat-num" id="projStatMetrics">0</span>
+                                        <span class="p-stat-lbl">Impact Metrics</span>
+                                    </div>
+                                    <div class="glass-card proj-stat-card">
+                                        <span class="p-stat-num" id="projStatComplexity">N/A</span>
+                                        <span class="p-stat-lbl">Average Tier</span>
+                                    </div>
+                                </div>
+
+                                <div class="project-audit-list" id="projectAuditCards">
+                                    <!-- Dynamic project evaluation cards -->
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="app-footer">
+            <p>&copy; 2026 CV Insight ATS Screener. Processed fully client-side. No resume data is stored or transmitted.</p>
+        </footer>
+    </div>
+
+    <!-- Main JavaScript -->
+    <script src="app.js"></script>
+</body>
+</html>
