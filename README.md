@@ -1,14 +1,14 @@
-# CV Insight 🚀
+# CV Insight 
 
 An AI-powered Resume Screening and Analysis System that helps candidates improve their resumes and assists recruiters in evaluating applicants efficiently.
 
-## 📖 Overview
+##  Overview
 
 CV Insight analyzes resumes, extracts important information, identifies skills, and provides insights to improve resume quality. The system leverages Natural Language Processing (NLP) and Machine Learning techniques to automate resume screening and candidate evaluation.
 
 ---
 
-## ✨ Features
+## Features
 
 ### For Candidates
 - Upload resumes in PDF format
@@ -27,7 +27,7 @@ CV Insight analyzes resumes, extracts important information, identifies skills, 
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 ### Frontend
 - HTML
@@ -53,7 +53,7 @@ CV Insight analyzes resumes, extracts important information, identifies skills, 
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```bash
 CV-Insight/
@@ -74,7 +74,7 @@ CV-Insight/
 
 ---
 
-## 🚀 Installation
+## Installation
 
 ### Clone the Repository
 
@@ -123,7 +123,7 @@ http://127.0.0.1:5000
 
 ---
 
-## 🔍 How It Works
+## How It Works
 
 1. Upload a resume in PDF format.
 2. Resume text is extracted.
@@ -135,7 +135,7 @@ http://127.0.0.1:5000
 
 ---
 
-## 🎯 Future Enhancements
+## Future Enhancements
 
 - Job Description Matching
 - ATS Compatibility Checker
@@ -147,7 +147,7 @@ http://127.0.0.1:5000
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome!
 
@@ -174,13 +174,13 @@ git push origin feature-name
 
 ---
 
-## 📜 License
+## License
 
 This project is licensed under the MIT License.
 
 ---
 
-## 👨‍💻 Author
+## Author
 
 **Shivam Upadhyay**
 
